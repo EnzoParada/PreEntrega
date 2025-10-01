@@ -14,7 +14,7 @@ public class ServiciosProductos {
         return lstProductos;
     }
 
-    public void agregarProducto(String nombre,double precio, int stock)throws Exception {
+    public void añadirProducto(String nombre,double precio, int stock)throws Exception {
         for(Producto p: lstProductos){
             if(p.getNombre().equals(nombre)){
                 throw new Exception("Ya existe este producto: "+p.getNombre() );

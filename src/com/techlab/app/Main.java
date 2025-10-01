@@ -3,17 +3,21 @@ package com.techlab.app;
 import com.techlab.productos.Producto;
 import com.techlab.productos.ServiciosProductos;
 
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
         ServiciosProductos sistema = new ServiciosProductos();
-
+        Scanner scanner = new Scanner(System.in);
+        int opcionUsuario;
         System.out.println("""
                 =================================================
                          Bienvenido a la app de compras
                 =================================================      
                 """);
-
-        System.out.println("""
+        label:
+        while (true){
+            System.out.println("""
                 OPCIONES:
                 1-Agregar producto
                 2-Listar productos
@@ -23,14 +27,59 @@ public class Main {
                 6-Listar pedidos
                 7-Salir
                 """);
-        try{
-            sistema.agregarProducto("Bolsa de Granos de Café Premium (500g)", 12.75, 90);
-            sistema.agregarProducto("Aceite de Oliva Extra Virgen (1 Litro)",8.50,210);
-            sistema.agregarProducto("Caja de 12 Yogurt Natural",5.99,155);
-            sistema.traerLista();
-        }catch (Exception e){
-            System.out.println(e);
+            opcionUsuario = scanner.nextInt();
+
+            switch (opcionUsuario){
+                case 1 -> agregarProducto(scanner, sistema);
+                case 7 ->{
+                    System.out.println("Gracias por usar nuestra app :)");
+                    break label;
+                }
+                default -> System.err.println("Opcion incorrecta");
+            }
         }
 
+    }
+
+    public static void agregarProducto(Scanner scanner, ServiciosProductos sistema){
+        scanner.nextLine();
+
+        System.out.println("""
+                        ==============================================
+                                   Ingreso Nuevo Producto
+                        ==============================================
+                        """);
+
+        System.out.println("Ingreser el nombre del producto: ");
+        String nombre = scanner.nextLine();
+
+        double precio;
+        int stock;
+
+        System.out.println("Ingrese  el precio del producto (ej 12,51)");
+
+        try {
+            precio = scanner.nextDouble();
+        }catch (Exception e){
+            System.err.println("Error: el precio debe ser un numero decimal");
+            scanner.nextLine();
+            return;
+        }
+
+        System.out.println("Ingrese  el numero de stock");
+        try{
+            stock = scanner.nextInt();
+        }catch (Exception e){
+            System.err.println("Error: El stock debe ser un número entero.");
+            scanner.nextLine();
+            return;
+        }
+
+        try{
+            sistema.añadirProducto(nombre,precio,stock);
+            System.out.println(nombre +"  Fue agregado con exito");
+        }catch (Exception e){
+            System.err.println("Error al agregar producto: "+ e.getMessage());
+        }
     }
 }
