@@ -16,7 +16,7 @@ public class ServiciosProductos {
 
     public void añadirProducto(String nombre, double precio, int stock) throws Exception {
         for (Producto p : lstProductos) {
-            if (p.getNombre().equals(nombre)) {
+            if (p.getNombre().equalsIgnoreCase(nombre)) {
                 throw new Exception("Ya existe este producto: " + p.getNombre());
             }
         }
@@ -34,7 +34,7 @@ public class ServiciosProductos {
         String nombreActualizado = productoActualizado.getNombre();
         boolean encontrado = false;
         for (Producto p : lstProductos) {
-            if (p.getNombre().equals(nombreActualizado)) {
+            if (p.getNombre().equalsIgnoreCase(nombreActualizado)) {
                 p.setPrecio(productoActualizado.getPrecio());
                 p.setStock(productoActualizado.getStock());
                 encontrado = true;
@@ -48,7 +48,7 @@ public class ServiciosProductos {
 
     public void eliminar(String nombre) throws Exception {
         for (Producto p : lstProductos) {
-            if (p.getNombre().equals(nombre)) {
+            if (p.getNombre().equalsIgnoreCase(nombre)) {
                 lstProductos.remove(p);
                 break;
             }

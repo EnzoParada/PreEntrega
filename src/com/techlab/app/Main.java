@@ -1,5 +1,6 @@
 package com.techlab.app;
 
+import com.techlab.pedidos.Pedido;
 import com.techlab.productos.Producto;
 import com.techlab.productos.ServiciosProductos;
 
@@ -8,6 +9,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         ServiciosProductos sistema = new ServiciosProductos();
+        Pedido pedido = new Pedido();
         Scanner scanner = new Scanner(System.in);
         int opcionUsuario;
         System.out.println("""
@@ -34,6 +36,7 @@ public class Main {
                 case 2 -> lista(sistema);
                 case 3 -> actProducto(scanner, sistema);
                 case 4 -> eliminarProducto(scanner, sistema);
+
                 case 7 -> {
                     System.out.println("Gracias por usar nuestra app :)");
                     break label;
@@ -41,8 +44,8 @@ public class Main {
                 default -> System.err.println("Opcion incorrecta");
             }
         }
-
     }
+
 
     public static void agregarProducto(Scanner scanner, ServiciosProductos sistema) {
         scanner.nextLine();
@@ -152,5 +155,53 @@ public class Main {
         }catch (Exception e){
             System.err.println("Error al intentar eliminar el producto");
         }
+    }
+    public static void crearProducto(Scanner scanner,Pedido pedido,ServiciosProductos sistema){
+        scanner.nextLine();
+        int opcion;
+        System.out.println("""
+                ==============================================
+                                Crear Pedido
+                ==============================================
+                """);
+        label:
+        while (true){
+            System.out.println("""
+                
+                1- Añadir Productos
+                2- Finalizar
+                """);
+            opcion=scanner.nextInt();
+            scanner.nextLine();
+            switch (opcion){
+                case 1 ->{
+                    sistema.traerLista();
+                    System.out.println("Ingrese el nombre del producto: ");
+                    String nombre = scanner.nextLine();
+
+                    Producto productoBuscado = null;
+                    for(Producto p: sistema.getLstProductos()){
+                        if(p.getNombre().equalsIgnoreCase(nombre)){
+                            productoBuscado = p;
+                            break ;
+                        }
+                    }
+                    if (productoBuscado != null){
+                        try{
+                            System.out.println("Ingrese la cantidad deseada");
+                            int cantidad = scanner.nextInt();
+                            scanner.nextLine();
+
+                            pedido.
+                        }catch ()
+                    }
+                }
+                case 2 ->{
+                    break label;
+                }
+                default -> System.err.println("Opcion incorrecta");
+            }
+        }
+
     }
 }
