@@ -16,22 +16,25 @@ public class Main {
                 =================================================      
                 """);
         label:
-        while (true){
+        while (true) {
             System.out.println("""
-                OPCIONES:
-                1-Agregar producto
-                2-Listar productos
-                3-Buscar/Actualizar producto
-                4-Eliminar producto
-                5-Crear pedido
-                6-Listar pedidos
-                7-Salir
-                """);
+                    OPCIONES:
+                    1-Agregar producto
+                    2-Listar productos
+                    3-Buscar/Actualizar producto
+                    4-Eliminar producto
+                    5-Crear pedido
+                    6-Listar pedidos
+                    7-Salir
+                    """);
             opcionUsuario = scanner.nextInt();
 
-            switch (opcionUsuario){
+            switch (opcionUsuario) {
                 case 1 -> agregarProducto(scanner, sistema);
-                case 7 ->{
+                case 2 -> lista(sistema);
+                case 3 -> actProducto(scanner, sistema);
+                case 4 -> eliminarProducto(scanner, sistema);
+                case 7 -> {
                     System.out.println("Gracias por usar nuestra app :)");
                     break label;
                 }
@@ -41,14 +44,14 @@ public class Main {
 
     }
 
-    public static void agregarProducto(Scanner scanner, ServiciosProductos sistema){
+    public static void agregarProducto(Scanner scanner, ServiciosProductos sistema) {
         scanner.nextLine();
 
         System.out.println("""
-                        ==============================================
-                                   Ingreso Nuevo Producto
-                        ==============================================
-                        """);
+                ==============================================
+                           Ingreso Nuevo Producto
+                ==============================================
+                """);
 
         System.out.println("Ingreser el nombre del producto: ");
         String nombre = scanner.nextLine();
@@ -60,26 +63,94 @@ public class Main {
 
         try {
             precio = scanner.nextDouble();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.err.println("Error: el precio debe ser un numero decimal");
             scanner.nextLine();
             return;
         }
 
         System.out.println("Ingrese  el numero de stock");
-        try{
+        try {
             stock = scanner.nextInt();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.err.println("Error: El stock debe ser un número entero.");
             scanner.nextLine();
             return;
         }
+        scanner.nextLine();
+        try {
+            sistema.añadirProducto(nombre, precio, stock);
+            System.out.println(nombre + "  Fue agregado con exito");
+        } catch (Exception e) {
+            System.err.println("Error al agregar producto: " + e.getMessage());
+        }
+    }
 
+    public static void lista(ServiciosProductos sistema) {
+        System.out.println("""
+                        ==============================================
+                                   Lista de Productos
+                        ==============================================
+                        """);
+        sistema.traerLista();
+    }
+
+    public static void actProducto(Scanner scanner, ServiciosProductos sistema) {
+        scanner.nextLine();
+        System.out.println("""
+                ==============================================
+                           Actualizar Producto
+                ==============================================
+                """);
+        System.out.println("Ingrese el nombre del producto que desea actualizar:");
+        String nombre = scanner.nextLine();
+
+        double precio;
+        int stock;
+
+        System.out.println("Actualice el precio del producto (ej 12,51)");
+
+        try {
+            precio = scanner.nextDouble();
+        } catch (Exception e) {
+            System.err.println("Error: el precio debe ser un numero decimal");
+            scanner.nextLine();
+            return;
+        }
+
+        System.out.println("Actualice el numero de stock");
+        try {
+            stock = scanner.nextInt();
+        } catch (Exception e) {
+            System.err.println("Error: El stock debe ser un número entero.");
+            scanner.nextLine();
+            return;
+        }
+        scanner.nextLine();
         try{
-            sistema.añadirProducto(nombre,precio,stock);
-            System.out.println(nombre +"  Fue agregado con exito");
+            Producto productoActualizado = new Producto(nombre,precio,stock);
+
+            sistema.actualizar(productoActualizado);
+            System.out.println(productoActualizado.getNombre() +" Fue actualizado con exito") ;
+        }catch(Exception e){
+            System.err.println("Error al intentar actualizar el producto ");
+        }
+    }
+    public static void eliminarProducto(Scanner scanner,ServiciosProductos sistema){
+        scanner.nextLine();
+        System.out.println("""
+                ==============================================
+                           Eliminar Producto
+                ==============================================
+                """);
+        System.out.println("Ingrese el nombre del producto que desea eliminar:");
+        String nombre = scanner.nextLine();
+
+        try {
+            sistema.eliminar(nombre);
+            System.out.println(nombre +" Fue actualizado con exito") ;
         }catch (Exception e){
-            System.err.println("Error al agregar producto: "+ e.getMessage());
+            System.err.println("Error al intentar eliminar el producto");
         }
     }
 }
